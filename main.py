@@ -355,15 +355,20 @@ class StarsLayer(cocos.layer.Layer):
         self.init_y = self.y
         
       def tick(inner):
-        inner.x = (inner.init_x + inner.size * self.trackedx) % director.window.width
-        inner.y = (inner.init_y + inner.size * self.trackedy) % director.window.height
+        inner.x = (inner.init_x + inner.z * self.trackedx) % director.window.width
+        inner.y = (inner.init_y + inner.z * self.trackedy) % director.window.height
 
     self.stars = togepy.gfx.ParticleSystem(StarParticle)
+    maxsize = max(director.window.height / 400.0, 1.0)
+    StarParticle.size = maxsize
     for i in range(100):
       x = random.uniform(0, director.window.width)
       y = random.uniform(0, director.window.height)
-      s = random.uniform(1, 4)
-      self.stars.new_particle(x=x, y=y, vy=s, size=s, color=(1,1,1,s/4.))
+      # Size
+      s = random.uniform(0.25, 1.0)
+      # Brightness
+      b = random.uniform(0.3, 5) ** 0.3
+      self.stars.new_particle(x=x, y=y, z=maxsize * s, color=(2-b,0.8,b,s*b))
     self.schedule(self.tick)
 
   def draw(self):
@@ -728,8 +733,8 @@ def main():
     def result(dt):
       t[0] += dt
       tt = t[0]
-      return 5 * sin(tt) + 20 * cos(tt / 4), \
-             7 * sin(tt / 3) + 18 * cos(tt / 5)
+      return (5 * sin(tt) + 20 * cos(tt / 4),
+              7 * sin(tt / 3) + 18 * cos(tt / 5))
     return result
   stars = StarsLayer(starsAnim())
   scene = cocos.scene.Scene(stars, menu)
