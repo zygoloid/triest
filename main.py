@@ -421,11 +421,10 @@ class GameNode(cocos.layer.Layer):
     self.player.position = (0, 0)
     self.add(self.player)
     self.timeSinceBullet = 10
+    self.timeToNewPiece = 0
 
     self.bullets = []
     self.objects = []
-
-    self.addRandomEnemy()
 
     self.anchor = (0,0)
 
@@ -434,6 +433,7 @@ class GameNode(cocos.layer.Layer):
     self.soundLine = pyglet.resource.media('line.wav', streaming=False)
     self.soundDestroy = pyglet.resource.media('destroy.wav', streaming=False)
     self.soundDrop = pyglet.resource.media('drop.wav', streaming=False)
+    self.soundWarning = pyglet.resource.media('warning.wav', streaming=False)
 
     self.overflow = 0
 
@@ -442,7 +442,7 @@ class GameNode(cocos.layer.Layer):
     self.score = 0
     self.speed = 1
 
-  def addRandomEnemy(self):
+  def addRandomPiece(self):
     piece = Piece()
     for i in range(random.randrange(4)):
       piece.rotate(1, time=0)
@@ -451,6 +451,7 @@ class GameNode(cocos.layer.Layer):
     self.do(MoveTo((32 - (self.player.x + piece.x) / 2, 24 - (self.player.y + piece.y) / 2), 0.2))
     self.objects.append(piece)
     self.add(piece)
+    self.timeSincePiece = 0
 
   def on_key_press(self, k, mod):
     self.keyboard.on_key_press(k, mod)
@@ -530,6 +531,9 @@ class GameNode(cocos.layer.Layer):
     #  self.add(b)
     #  self.timeSinceBullet = 0
 
+    oldTimeToNewPiece = self.timeToNewPiece
+    self.timeToNewPiece -= dt
+
     for o in self.objects[:]:
       for b in self.bullets:
         if collide(b, o):
@@ -538,6 +542,28 @@ class GameNode(cocos.layer.Layer):
           break
       else:
         settled = False
+
+        # Treat all earlier objects as immovable, and clip against their
+        # positions.
+        for p in self.objects:
+          if p is o: break
+          if not collide(p, o): break
+
+          vx, vy = o.vx - p.vx, o.vy - p.vy
+          oldx, oldy = o.x, o.y
+          oldvx, oldvy = o.vx, o.vy
+          relx = round(o.x - p.x)
+          rely = round(o.y - p.y)
+          clipx = relx + p.x
+          clipy = rely + p.y
+          if abs(vx) > abs(vy):
+            o.y, o.vy = clipy, 0
+          else:
+            o.x, o.vx = clipx, 0
+          if collide(p, o):
+            o.x, o.vx = clipx, 0
+            o.y, o.vy = clipy, 0
+
         if collide(self.player, o):
           #if self.player.area() > o.area():
           #else:
@@ -585,7 +611,9 @@ class GameNode(cocos.layer.Layer):
             out, lines = self.player.combine(o, force=True)
             if lines:
               self.soundLine.play()
-            else:
+            if out:
+              self.soundDestroy.play()
+            if not lines and not out:
               self.soundDrop.play()
             self.lives -= out
             self.lives += max(lines * 2 - 1, 0)
@@ -609,7 +637,15 @@ class GameNode(cocos.layer.Layer):
               director.scene.add(GameOverMenu(self.score), z=2000)
             else:
               self.removeObject(o)
-              self.addRandomEnemy()
+              self.addRandomPiece()
+              self.timeToNewPiece = max(3, 10. - self.speed / 3.)
+
+    # Throw in another piece if we've not placed one for a while.
+    if self.timeToNewPiece <= 0:
+      self.addRandomPiece()
+      self.timeToNewPiece = max(3, 5. - self.speed / 3.)
+    elif self.timeToNewPiece < 2 and int(self.timeToNewPiece * 2) != int(oldTimeToNewPiece * 2):
+      self.soundWarning.play()
 
   def removeBullet(self, bullet):
     self.bullets.remove(bullet)
