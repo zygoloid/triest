@@ -1,0 +1,13 @@
+You will need:
+
+cocos2d
+pyglet
+ffmpeg
+
+The first two can be installed with 'pip install' or a suitable wheel can be
+dropped into deps/. For the third one, download the shared libraries from
+ffmpeg.org and place the .dll / .so / .dylib files in a new lib/ subdirectory
+(or install them system-wide).
+
+Grab some suitable music and install it to data/sounds/music.ogg
+https://www.newgrounds.com/audio/listen/263998 is recommended :)

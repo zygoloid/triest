@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>togepy.ai</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="togepy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="togepy-module.html">Package&nbsp;togepy</a> ::
+        Module&nbsp;ai
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="togepy.ai-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="togepy.ai-module.html">Module togepy.ai</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-docstring">"""Basic AI routines, such as path-finding, etc"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-name">__docformat__</tt> <tt class="py-op">=</tt> <tt class="py-string">'restructuredtext'</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">heapq</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Function togepy.ai.constant_one()=togepy.ai-module.html#constant_one"><a title="togepy.ai.constant_one" class="py-name" href="#" onclick="return doclink('link-0', 'constant_one', 'link-0');">constant_one</a></tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt id="link-1" class="py-name" targets="Variable togepy.gfx.Particle.x=togepy.gfx.Particle-class.html#x"><a title="togepy.gfx.Particle.x" class="py-name" href="#" onclick="return doclink('link-1', 'x', 'link-1');">x</a></tt><tt class="py-op">,</tt><tt id="link-2" class="py-name" targets="Variable togepy.gfx.Particle.y=togepy.gfx.Particle-class.html#y"><a title="togepy.gfx.Particle.y" class="py-name" href="#" onclick="return doclink('link-2', 'y', 'link-2');">y</a></tt><tt class="py-op">:</tt> <tt class="py-number">1</tt>  </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt id="link-3" class="py-name" targets="Function togepy.ai.constant_zero()=togepy.ai-module.html#constant_zero"><a title="togepy.ai.constant_zero" class="py-name" href="#" onclick="return doclink('link-3', 'constant_zero', 'link-3');">constant_zero</a></tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt id="link-4" class="py-name"><a title="togepy.gfx.Particle.x" class="py-name" href="#" onclick="return doclink('link-4', 'x', 'link-1');">x</a></tt><tt class="py-op">,</tt><tt id="link-5" class="py-name"><a title="togepy.gfx.Particle.y" class="py-name" href="#" onclick="return doclink('link-5', 'y', 'link-2');">y</a></tt><tt class="py-op">:</tt> <tt class="py-number">0</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="find_path"></a><div id="find_path-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="find_path-toggle" onclick="return toggle('find_path');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="togepy.ai-module.html#find_path">find_path</a><tt class="py-op">(</tt><tt class="py-param">start</tt><tt class="py-op">,</tt> <tt class="py-param">end</tt><tt class="py-op">,</tt> <tt class="py-param">neighbourhood</tt><tt class="py-op">,</tt> <tt class="py-param">dist</tt><tt class="py-op">=</tt><tt id="link-6" class="py-name"><a title="togepy.ai.constant_one" class="py-name" href="#" onclick="return doclink('link-6', 'constant_one', 'link-0');">constant_one</a></tt><tt class="py-op">,</tt>  </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">              <tt class="py-param">heuristic</tt><tt class="py-op">=</tt><tt id="link-7" class="py-name"><a title="togepy.ai.constant_zero" class="py-name" href="#" onclick="return doclink('link-7', 'constant_zero', 'link-3');">constant_zero</a></tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="find_path-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="find_path-expanded"><a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-docstring">"""Simple A-* implementation, with configurable heuristic and distance </tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring">       functions.</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">    </tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring">    :Parameters:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">        `start` : node</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">            An opaque object representing the start node.</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">        `end` : node</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">            An opaque object representing the end node.</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-docstring">        `neighbourhood` : function</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line"><tt class="py-docstring">            A function which, given a node, returns an iterable of nodes which </tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"><tt class="py-docstring">            are directly connected to it.</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line"><tt class="py-docstring">        `dist` : function</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"><tt class="py-docstring">            A function which, given two directly connected nodes, returns the</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"><tt class="py-docstring">            distance between them. Defaults to a constant 1.</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-docstring">        `heuristic` : function</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-docstring">            A function which, given two nodes, estimates the distance between</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"><tt class="py-docstring">            them. This should be an admissible heuristic, i.e. it should never</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"><tt class="py-docstring">            over-estimate. Defaults to a constant 0.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt>  </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">    <tt class="py-name">initialpath</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-name">start</tt><tt class="py-op">]</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">    <tt class="py-name">solutions</tt> <tt class="py-op">=</tt> <tt class="py-op">[</tt><tt class="py-op">(</tt><tt class="py-name">heuristic</tt><tt class="py-op">(</tt><tt class="py-name">start</tt><tt class="py-op">,</tt> <tt id="link-8" class="py-name" targets="Method togepy.gfx.DisplayList.end()=togepy.gfx.DisplayList-class.html#end"><a title="togepy.gfx.DisplayList.end" class="py-name" href="#" onclick="return doclink('link-8', 'end', 'link-8');">end</a></tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">,</tt> <tt class="py-name">initialpath</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-name">ignore</tt> <tt class="py-op">=</tt> <tt class="py-name">set</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">    <tt class="py-keyword">while</tt> <tt class="py-name">solutions</tt><tt class="py-op">:</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">        <tt class="py-name">nothing</tt><tt class="py-op">,</tt> <tt class="py-name">olddist</tt><tt class="py-op">,</tt> <tt class="py-name">route</tt> <tt class="py-op">=</tt> <tt class="py-name">heapq</tt><tt class="py-op">.</tt><tt class="py-name">heappop</tt><tt class="py-op">(</tt><tt class="py-name">solutions</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-name">last</tt> <tt class="py-op">=</tt> <tt class="py-name">route</tt><tt class="py-op">[</tt><tt class="py-op">-</tt><tt class="py-number">1</tt><tt class="py-op">]</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">last</tt> <tt class="py-keyword">not</tt> <tt class="py-keyword">in</tt> <tt class="py-name">ignore</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-name">last</tt> <tt class="py-op">==</tt> <tt id="link-9" class="py-name"><a title="togepy.gfx.DisplayList.end" class="py-name" href="#" onclick="return doclink('link-9', 'end', 'link-8');">end</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">route</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt class="py-name">ignore</tt><tt class="py-op">.</tt><tt class="py-name">add</tt><tt class="py-op">(</tt><tt class="py-name">last</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">            <tt class="py-name">new</tt> <tt class="py-op">=</tt> <tt class="py-name">neighbourhood</tt><tt class="py-op">(</tt><tt class="py-name">last</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">node</tt> <tt class="py-keyword">in</tt> <tt class="py-name">new</tt><tt class="py-op">:</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">node</tt> <tt class="py-keyword">in</tt> <tt class="py-name">ignore</tt><tt class="py-op">:</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">                    <tt class="py-keyword">continue</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">                <tt class="py-name">path</tt> <tt class="py-op">=</tt> <tt class="py-name">route</tt> <tt class="py-op">+</tt> <tt class="py-op">[</tt><tt class="py-name">node</tt><tt class="py-op">]</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">                <tt class="py-name">newdist</tt> <tt class="py-op">=</tt> <tt class="py-name">olddist</tt> <tt class="py-op">+</tt> <tt class="py-name">dist</tt><tt class="py-op">(</tt><tt class="py-name">last</tt><tt class="py-op">,</tt> <tt class="py-name">node</tt><tt class="py-op">)</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">                <tt class="py-name">heapq</tt><tt class="py-op">.</tt><tt class="py-name">heappush</tt><tt class="py-op">(</tt><tt class="py-name">solutions</tt><tt class="py-op">,</tt> <tt class="py-op">(</tt><tt class="py-name">heuristic</tt><tt class="py-op">(</tt><tt class="py-name">node</tt><tt class="py-op">,</tt> <tt id="link-10" class="py-name"><a title="togepy.gfx.DisplayList.end" class="py-name" href="#" onclick="return doclink('link-10', 'end', 'link-8');">end</a></tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-name">newdist</tt><tt class="py-op">,</tt>  </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">                                           <tt class="py-name">newdist</tt><tt class="py-op">,</tt> <tt class="py-name">path</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">None</tt> </tt>
+</div><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="togepy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Feb 29 22:59:33 2008
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

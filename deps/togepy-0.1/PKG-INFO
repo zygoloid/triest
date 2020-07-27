@@ -1,0 +1,13 @@
+Metadata-Version: 1.0
+Name: togepy
+Version: 0.1
+Summary: Tools for Game Engines in Python
+Home-page: UNKNOWN
+Author: Adam Biltcliffe, Martin O'Leary, Richard Thomas
+Author-email: UNKNOWN
+License: BSD
+Description: Togepy is a collection of tools to assist with developing games
+        under python. It is intended to be used with the game programming
+        library pyglet (http://www.pyglet.org) and provides a number of
+        useful extensions to its API.
+Platform: UNKNOWN
