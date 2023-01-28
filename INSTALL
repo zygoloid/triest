@@ -1,13 +1,37 @@
+Essentials
+==========
+
 You will need:
 
 cocos2d
 pyglet
-ffmpeg
 
-The first two can be installed with 'pip install' or a suitable wheel can be
-dropped into deps/. For the third one, download the shared libraries from
-ffmpeg.org and place the .dll / .so / .dylib files in a new lib/ subdirectory
-(or install them system-wide).
+These can be installed with `pip install` or a suitable wheel can be dropped
+into deps/.
+
+Music
+=====
 
 Grab some suitable music and install it to data/sounds/music.ogg
 https://www.newgrounds.com/audio/listen/263998 is recommended :)
+
+If you pick that music file, you will need to install pyglet support for Ogg
+Vorbis. Either of these should work:
+
+ffmpeg
+pyogg
+
+For ffmpeg, download the shared libraries from ffmpeg.org and place the .dll /
+.so / .dylib files in a new lib/ subdirectory (or install them system-wide).
+
+For pyogg, `pip install` should work.
+
+MacOS
+=====
+
+A few issues affect use on MacOS:
+
+- Neither ffmpeg nor pyogg seems to work for music currently.
+- cocos2d has a bug on retina displays where it only renders in the bottom left
+  quarter of the screen. See https://github.com/los-cocos/cocos/issues/303
+- Input (keyboard and mouse) doesn't work in fullscreen mode.

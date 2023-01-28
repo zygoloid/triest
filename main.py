@@ -747,20 +747,26 @@ def main():
 
   sys.stdout.write("Loading music... ")
   sys.stdout.flush()
-  music = pyglet.resource.media('music.ogg')
-  sys.stdout.write("done\n")
-  sys.stdout.flush()
+  music = None
+  try:
+    music = pyglet.resource.media('music.ogg')
+    sys.stdout.write("done\n")
+    sys.stdout.flush()
+  except Exception as e:
+    sys.stdout.write(f"failed: {e}\n")
+    sys.stdout.flush()
 
   director.init(fullscreen=True)
 
   # Sets up blending so we get anti-aliased edges. Allegedly.
   squirtle.setup_gl()
 
-  musicPlayer = pyglet.media.Player()
-  musicPlayer.queue(music)
-  #musicPlayer.eos_action = pyglet.media.Player.EOS_LOOP
-  musicPlayer.loop = True
-  musicPlayer.play()
+  if music:
+    musicPlayer = pyglet.media.Player()
+    musicPlayer.queue(music)
+    #musicPlayer.eos_action = pyglet.media.Player.EOS_LOOP
+    musicPlayer.loop = True
+    musicPlayer.play()
 
   menu = Menu()
   def starsAnim():
